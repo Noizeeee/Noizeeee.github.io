@@ -584,6 +584,11 @@ section h2 {
     transform: translateY(-2px);
 }
 
+.Projects-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* --- Native GPU Scroll-Driven Animation Implementation --- */
 @keyframes structuralReveal {
     from {
@@ -659,7 +664,6 @@ section h2 {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
     }
 
     /* Mobile Glass Navigation Header bar */
