@@ -50,7 +50,7 @@ body {
 
     /*BACKGROUND IMAGE ONLY*/
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.90), rgba(0, 0, 0, 0.90)),
+        linear-gradient(rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.80)),
         url("Images/BG.png");
 
     background-size: cover;
@@ -658,7 +658,7 @@ section h2 {
     body {
         grid-template-columns: 1fr;
         background: 
-        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+        linear-gradient(rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.80)),
         url("Images/BG.png");
 
     background-size: cover;
