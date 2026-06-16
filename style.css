@@ -1,0 +1,568 @@
+/* --- Professional Dark Palette (Inspired by T1 Color Codes) --- */
+:root {
+    --sidebar-width: 280px;
+    
+    /* Strict Premium Corporate Slate Theme with Crimson and Gold Highlights */
+    --clr-bg-main: #09090b;
+    --clr-bg-card: #121216;
+    --clr-sidebar: #050507;
+    --clr-text-main: #f4f4f5;
+    --clr-text-muted: #a1a1aa;
+    --clr-accent: #e2011a; /* Corporate Red Accent */
+    --clr-gold: #c5a059;   /* Luxury Brass/Gold Highlights */
+    --clr-border: #1f1f23;
+    
+    --font-primary: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius-lg: 8px;
+    --radius-md: 4px;
+    --shadow-red: 0 10px 40px rgba(226, 1, 26, 0.04);
+}
+
+/* --- Structural Base Elements --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: var(--clr-bg-main);
+    color: var(--clr-text-main);
+    font-family: var(--font-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* THE PARTITION: Structural Grid Split separating Sidebar Navigation and content flow */
+body {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* --- Fixed Executive Navigation Sidebar --- */
+.sidebar {
+    background: var(--clr-sidebar);
+    color: #ffffff;
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 50px 35px;
+    border-right: 1px solid var(--clr-border);
+    z-index: 100;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar-brand h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.logo-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--clr-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--clr-accent);
+}
+
+.sidebar-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sidebar-links a {
+    display: block;
+    color: #52525b;
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: all 0.2s ease;
+}
+
+.sidebar-links a:hover, 
+.sidebar-links a.active {
+    color: #ffffff !important; /* Forces text to stay white when active */
+    background-color: #111115;
+    border-left: 2px solid var(--clr-accent);
+    padding-left: 18px;
+}
+
+.sidebar-footer {
+    font-size: 0.75rem;
+    color: #3f3f46;
+    font-weight: 500;
+}
+
+/* --- Main Content Workspace Area --- */
+.content-wrapper {
+    grid-column: 2; /* Locks components into the second layout column channel */
+    padding: 0 10% 120px 10%;
+    max-width: 1300px;
+    width: 100%;
+    justify-self: center;
+}
+
+section {
+    padding-top: 140px;
+    width: 100%;
+}
+
+.section-tag {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--clr-gold);
+    margin-bottom: 12px;
+}
+
+section h2 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+}
+
+/* --- Clean Image Slot Layout System --- */
+.image-slot {
+    background-color: #111115;
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+}
+
+.image-slot:hover {
+    border-color: #3f3f46;
+}
+
+.image-slot img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.slot-label {
+    text-align: center;
+    color: #3f3f46;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 20px;
+    z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.slot-label span {
+    font-size: 0.7rem;
+    color: #27272a;
+    text-transform: none;
+}
+
+/* --- Hero Layout Architecture & Text Glow Configuration --- */
+.hero-section {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 900px;
+    padding-top: 0;
+}
+
+.hero-badge {
+    background-color: rgba(226, 1, 26, 0.05);
+    color: var(--clr-accent);
+    border: 1px solid rgba(226, 1, 26, 0.15);
+    width: fit-content;
+    padding: 5px 12px;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+}
+
+/* Global text class configuration for all screen types */
+.Name {
+    font-size: 4.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    color: var(--clr-text-main);
+    
+    /* Configures the animation properties cleanly to work with your inline assignments */
+    animation: animate 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: text-shadow, transform, opacity;
+}
+
+/* Safely apply an aesthetic drop shadow overlay filter directly to your linear gradient text clip */
+.Name .text-gradient {
+    background: linear-gradient(to right, var(--clr-text-main), var(--clr-gold));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.25));
+}
+
+.hero-sub {
+    font-size: 1.4rem;
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.hero-section p:not(.hero-sub) {
+    font-size: 1.2rem;
+    color: var(--clr-text-muted);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 750px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+}
+
+/* Standard Corporate Buttons */
+.btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--clr-accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #bd0114;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid var(--clr-border);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+    border-color: #3f3f46;
+}
+
+/* --- About Container Grid Alignment --- */
+.about-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.profile-img-slot {
+    height: 380px;
+    width: 100%;
+}
+
+.about-text p {
+    font-size: 1.25rem;
+    line-height: 1.65;
+    color: var(--clr-text-muted);
+}
+
+/* --- Technical Skill Grid Vault --- */
+.skills-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+}
+
+.skill-category h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tags span {
+    background-color: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
+    padding: 12px 18px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    color: var(--clr-text-main);
+    transition: all 0.2s ease;
+}
+
+.skill-tags span:hover {
+    border-color: var(--clr-accent);
+    background-color: #14141a;
+}
+
+/* --- Project Presentation System --- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 32px;
+}
+
+.project-card {
+    background-color: var(--clr-bg-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-img-slot {
+    height: 220px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--clr-border);
+}
+
+.project-info {
+    padding: 30px;
+}
+
+.project-date {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--clr-gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.project-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+}
+
+.project-info p {
+    color: var(--clr-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.project-tech {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--clr-gold);
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    background-color: rgba(197, 160, 89, 0.02);
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    letter-spacing: 0.5px;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    border-color: #27272a;
+    box-shadow: var(--shadow-red);
+}
+
+/* --- Corporate Contact Block --- */
+.contact-section p {
+    font-size: 1.2rem;
+    color: var(--clr-text-muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.contact-link {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 2px solid var(--clr-accent);
+    transition: opacity 0.2s ease;
+    letter-spacing: -0.01em;
+}
+
+.contact-link:hover {
+    opacity: 0.8;
+}
+
+.social-links {
+    display: flex;
+    gap: 32px;
+    margin-top: 40px;
+}
+
+.social-links a {
+    color: var(--clr-text-muted);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.2s ease;
+}
+
+.social-links a:hover {
+    color: var(--clr-gold);
+}
+
+/* --- Native GPU Scroll-Driven Animation Implementation --- */
+@keyframes structuralReveal {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@supports (animation-timeline: view()) {
+    section {
+        animation: structuralReveal cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 30%;
+    }
+
+    /* Allows the main landing hero view metrics to render instantly upon document loading */
+    .hero-section {
+        animation: none;
+    }
+}
+
+@keyframes animate {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+        text-shadow: 0 0 0px rgba(226, 1, 26, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        
+        /* High-intensity layered glow tracking from inner core flare to ultra-wide ambient atmosphere */
+        text-shadow: 
+            /* Layer 1: Sharp, intense inner core red */
+            0 0 10px rgba(226, 1, 26, 0.9), 
+            /* Layer 2: Medium-spread red body saturation */
+            0 0 25px rgba(226, 1, 26, 0.7), 
+            /* Layer 3: Wide-spread luxury gold accent bleed */
+            0 0 50px rgba(197, 160, 89, 0.5), 
+            /* Layer 4: Ultra-wide ambient atmospheric red backdrop */
+            0 0 90px rgba(226, 1, 26, 0.3);
+    }
+}
+
+/* --- Modern Responsive Device Breakpoints --- */
+@media (max-width: 1024px) {
+    .content-wrapper {
+        padding: 0 6% 80px 6%;
+    }
+    .hero-section h1 {
+        font-size: 3.2rem;
+    }
+    .about-container {
+        grid-template-columns: 1fr;
+    }
+    .profile-img-slot {
+        height: 380px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 24px;
+        border-right: none;
+        border-bottom: 1px solid var(--clr-border);
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .sidebar-links, .sidebar-footer {
+        display: none;
+    }
+
+    .content-wrapper {
+        grid-column: 1;
+        padding: 0 24px 60px 24px;
+    }
+
+    .hero-section {
+        height: auto;
+        padding: 80px 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2.4rem;
+    }
+
+    section {
+        padding-top: 60px;
+    }
+
+    section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
