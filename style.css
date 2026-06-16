@@ -47,6 +47,16 @@ body {
     min-height: 100vh;
     width: 100vw;
     overflow-x: hidden;
+
+    /*BACKGROUND IMAGE ONLY*/
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.90), rgba(0, 0, 0, 0.90)),
+        url("Images/BG.png");
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 /* --- Fixed Executive Navigation Sidebar (Cyber-Glass Variant) --- */
@@ -642,6 +652,14 @@ section h2 {
 @media (max-width: 768px) {
     body {
         grid-template-columns: 1fr;
+        background: 
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+        url("Images/BG.png");
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
     }
 
     /* Mobile Glass Navigation Header bar */
