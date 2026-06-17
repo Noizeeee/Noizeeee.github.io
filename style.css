@@ -17,6 +17,13 @@
     --radius-md: 6px;
     --shadow-red: 0 20px 50px rgba(226, 1, 26, 0.12);
     --shadow-gold: 0 0 30px rgba(197, 160, 89, 0.15);
+
+    /* Kinetic Variable Definitions */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Real-time Tracking Vector Initialization for Flashlight Layer */
+    --flashlight-x: 0px;
+    --flashlight-y: 0px;
 }
 
 /* --- Structural Base Elements & Tech Matrix Grid Background --- */
@@ -29,34 +36,69 @@
 html {
     scroll-behavior: smooth;
     background-color: var(--clr-bg-main);
-    /* CRAZY DESIGN 1: Ambient hardware workbench mesh backdrop layout */
-    background-image: 
-        linear-gradient(rgba(26, 26, 34, 0.25) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(26, 26, 34, 0.25) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-position: center top;
     color: var(--clr-text-main);
     font-family: var(--font-primary);
     -webkit-font-smoothing: antialiased;
 }
 
-/* THE PARTITION: Structural Grid Split separating Sidebar Navigation and content flow */
+html.desktop-engine, html.desktop-engine * {
+    cursor: default !important;
+}
+
+/* FLASHLIGHT ENVIRONMENT INTEGRATION */
 body {
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
     min-height: 100vh;
     width: 100vw;
     overflow-x: hidden;
+    position: relative;
+}
 
-    /*BACKGROUND IMAGE ONLY*/
-    background: 
-        linear-gradient(rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.80)),
+/* Ambient Base Layer (Unlit State) */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: #040406;
+}
+
+/* Dynamic Flashlight Reveal Mask Layer */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    
+    /* Technical Grid Mask */
+    background-image: 
+        linear-gradient(rgba(26, 26, 34, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26, 26, 34, 0.18) 1px, transparent 1px),
         url("Images/BG.png");
-
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    background-size: 40px 40px, 40px 40px, cover;
+    background-position: center top, center top, center;
     background-attachment: fixed;
+
+    /* Radial pass-through gradient mask simulating a hardware torch cone */
+    mask-image: radial-gradient(
+        350px circle at var(--flashlight-x) var(--flashlight-y),
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.4) 40%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: radial-gradient(
+        350px circle at var(--flashlight-x) var(--flashlight-y),
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.4) 40%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+/* --- UNIVERSAL TEXT PERFORMANCE OPTIMIZATION --- */
+h1, h2, h3, p, a, span, li {
+    will-change: transform, letter-spacing;
 }
 
 /* --- Fixed Executive Navigation Sidebar (Cyber-Glass Variant) --- */
@@ -74,20 +116,23 @@ body {
     padding: 50px 35px;
     border-right: 1px solid rgba(255, 255, 255, 0.03);
     z-index: 100;
-    
-    /* Frosted Blur Mechanics */
     backdrop-filter: blur(20px) saturate(140%);
     -webkit-backdrop-filter: blur(20px) saturate(140%);
     box-shadow: 15px 0 50px rgba(0, 0, 0, 0.4);
+    animation: sidebarBoot 1s var(--ease-out-expo) forwards;
 }
 
-/* CRAZY DESIGN 2: Animated Laser Scanning Accent Bar running under the glass panel */
+@keyframes sidebarBoot {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
 .sidebar::after {
     content: '';
     position: absolute;
     top: 0;
     right: -1px;
-    width: 1px;
+    width: 2px;
     height: 40%;
     background: linear-gradient(to bottom, transparent, var(--clr-accent), var(--clr-gold), transparent);
     animation: laserScan 6s linear infinite;
@@ -107,8 +152,20 @@ body {
 .sidebar-brand h2 {
     font-size: 1.05rem;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
     text-transform: uppercase;
+    animation: textTrack 1.5s var(--ease-out-expo) forwards;
+}
+
+@keyframes textTrack {
+    from { letter-spacing: 12px; opacity: 0; }
+    to { letter-spacing: 4px; opacity: 1; }
+}
+
+.sidebar-brand:hover h2 {
+    letter-spacing: 6px;
+    color: var(--clr-gold);
+    transition: all 0.4s var(--ease-out-expo);
 }
 
 .logo-dot {
@@ -117,6 +174,12 @@ body {
     background-color: var(--clr-accent);
     border-radius: 50%;
     box-shadow: 0 0 14px var(--clr-accent), 0 0 4px #ffffff;
+    animation: corePulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes corePulse {
+    0% { box-shadow: 0 0 8px var(--clr-accent), 0 0 2px #ffffff; transform: scale(0.9); }
+    100% { box-shadow: 0 0 18px var(--clr-accent), 0 0 6px #ffffff; transform: scale(1.1); }
 }
 
 .sidebar-links {
@@ -137,10 +200,24 @@ body {
     text-transform: uppercase;
     letter-spacing: 1px;
     position: relative;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
 }
 
-/* CRAZY DESIGN 3: Micro-terminal navigation hover responses */
+.sidebar-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    width: 0;
+    height: 1px;
+    background: var(--clr-gold);
+    transition: width 0.3s var(--ease-out-expo);
+}
+
+.sidebar-links a:hover::after {
+    width: 40%;
+}
+
 .sidebar-links a:hover, 
 .sidebar-links a.active {
     color: #ffffff !important;
@@ -148,6 +225,7 @@ body {
     border-left: 3px solid var(--clr-accent);
     padding-left: 22px;
     box-shadow: inset 10px 0 20px rgba(226, 1, 26, 0.03);
+    letter-spacing: 1.5px;
 }
 
 .sidebar-footer {
@@ -192,7 +270,7 @@ section h2 {
     margin-bottom: 45px;
 }
 
-/* --- CRAZY DESIGN 4: Interactive Hardware Diagnostic Image Slots --- */
+/* --- Interactive Hardware Diagnostic Image Slots --- */
 .image-slot {
     background-color: #0b0b0f;
     border: 1px solid var(--clr-border);
@@ -202,10 +280,9 @@ section h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s var(--ease-out-expo);
 }
 
-/* Cyber corner scope markers on hover */
 .image-slot::before, .image-slot::after {
     content: '';
     position: absolute;
@@ -257,15 +334,14 @@ section h2 {
     z-index: 1;
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: transform 0.3s var(--ease-out-expo), color 0.3s ease;
+}
+.image-slot:hover .slot-label {
+    color: var(--clr-gold);
+    transform: scale(1.05);
 }
 
-.slot-label span {
-    font-size: 0.7rem;
-    color: #2c2c38;
-    text-transform: none;
-}
-
-/* --- Hero Layout Architecture & Heavy Neon Flare Injection --- */
+/* --- Hero Layout Architecture --- */
 .hero-section {
     height: 95vh;
     display: flex;
@@ -274,19 +350,44 @@ section h2 {
     max-width: 950px;
     padding-top: 0;
     position: relative;
+    perspective: 1000px;
 }
 
-/* CRAZY DESIGN 5: Ultra-wide ambient glowing engine backdrops */
 .hero-section::before {
     content: '';
     position: absolute;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(226, 1, 26, 0.08) 0%, transparent 70%);
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(226, 1, 26, 0.09) 0%, transparent 70%);
     top: 20%;
     left: -100px;
     z-index: -1;
     pointer-events: none;
+    animation: ambientPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes ambientPulse {
+    0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+    100% { transform: scale(1.15) translate(20px, -10px); opacity: 1; }
+}
+
+.hero-badge, .Name, .description-reveal, .hero-paragraph, .hero-actions {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: typographySweepIn 1.4s var(--ease-out-expo) forwards;
+}
+
+.hero-badge { animation-delay: 0.1s; letter-spacing: 4px; }
+.Name       { animation-delay: 0.25s; }
+.description-reveal { animation-delay: 0.4s; }
+.hero-paragraph { animation-delay: 0.55s; }
+.hero-actions { animation-delay: 0.7s; }
+
+@keyframes typographySweepIn {
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
 }
 
 .hero-badge {
@@ -304,6 +405,7 @@ section h2 {
     box-shadow: 0 0 15px rgba(226, 1, 26, 0.1);
 }
 
+/* --- HIGH-INTENSITY DOUBLE NEON GLOW PRESERVED --- */
 .Name {
     font-size: 4.8rem;
     font-weight: 900;
@@ -311,8 +413,9 @@ section h2 {
     letter-spacing: -0.04em;
     margin-bottom: 20px;
     color: #ffffff;
-    animation: animate 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    will-change: text-shadow, transform, opacity;
+    display: block;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
 }
 
 .Name .text-gradient {
@@ -320,22 +423,53 @@ section h2 {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    transition: all 0.4s var(--ease-out-expo);
 }
 
-.hero-sub {
+.Name:hover .text-gradient {
+    text-shadow: 0 0 15px rgba(226, 1, 26, 0.6), 0 0 40px rgba(197, 160, 89, 0.4);
+    -webkit-text-fill-color: #ffffff; 
+}
+
+/* --- DESCRIPTION TEXT CHARACTER EFFECT --- */
+.description-reveal {
     font-size: 1.45rem;
     color: #ffffff;
     font-weight: 600;
     margin-bottom: 20px;
     letter-spacing: -0.01em;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.hero-section p:not(.hero-sub) {
+.char-unit {
+    opacity: 0;
+    transform: translateY(10px) rotateX(90deg);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-block;
+}
+
+.char-unit.revealed {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+}
+
+.char-unit:hover {
+    color: var(--clr-accent);
+    transform: translateY(-4px) scale(1.1);
+}
+
+.hero-paragraph {
     font-size: 1.2rem;
     color: var(--clr-text-muted);
     line-height: 1.65;
     margin-bottom: 45px;
     max-width: 780px;
+    transition: color 0.3s ease;
+}
+
+.hero-paragraph:hover {
+    color: var(--clr-text-main);
 }
 
 .hero-actions {
@@ -343,7 +477,7 @@ section h2 {
     gap: 20px;
 }
 
-/* Kinetic Energy Control Buttons */
+/* Kinetic Buttons */
 .btn {
     display: inline-block;
     padding: 16px 36px;
@@ -355,7 +489,7 @@ section h2 {
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
 }
 
 .btn-primary {
@@ -368,20 +502,20 @@ section h2 {
     background-color: #f5021c;
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(226, 1, 26, 0.4);
+    letter-spacing: 1.5px;
 }
 
-/* Glint shimmer sweep on active hover frames */
 .btn::after {
     content: '';
     position: absolute;
     top: 0; left: -100%;
     width: 50%; height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
     transform: skewX(-25deg);
 }
 .btn:hover::after {
     left: 150%;
-    transition: left 0.6s ease;
+    transition: left 0.65s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .btn-secondary {
@@ -394,6 +528,7 @@ section h2 {
     background-color: rgba(255, 255, 255, 0.03);
     border-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-3px);
+    letter-spacing: 1.5px;
 }
 
 /* --- About Container Grid Alignment --- */
@@ -415,7 +550,7 @@ section h2 {
     color: var(--clr-text-muted);
 }
 
-/* --- Technical Skill Grid Vault --- */
+/* --- TECHNICAL SKILL IMAGE VAULT UPGRADE --- */
 .skills-showcase {
     display: flex;
     flex-direction: column;
@@ -428,36 +563,65 @@ section h2 {
     letter-spacing: 1.5px;
     color: #ffffff;
     margin-bottom: 18px;
+    transition: letter-spacing 0.3s var(--ease-out-expo);
+}
+.skill-category:hover h3 {
+    letter-spacing: 2.5px;
+    color: var(--clr-gold);
 }
 
 .skill-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 16px;
 }
 
-/* CRAZY DESIGN 6: Interactive Terminal Microchips for Skills */
 .skill-tags span {
+    position: relative;
     background-color: var(--clr-bg-card);
     border: 1px solid var(--clr-border);
-    padding: 14px 22px;
-    font-weight: 600;
+    padding: 18px 28px;
+    font-weight: 700;
     font-size: 0.9rem;
     border-radius: var(--radius-md);
     color: var(--clr-text-main);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s var(--ease-out-expo);
+}
+
+.skill-tags span::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("http://googleusercontent.com/image_collection/image_retrieval/3188923133263785085");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.08;
+    z-index: -1;
+    mix-blend-mode: overlay;
+    filter: grayscale(100%) contrast(130%);
+    transition: opacity 0.4s ease, transform 0.6s var(--ease-out-expo);
 }
 
 .skill-tags span:hover {
     border-color: var(--clr-accent);
     color: #ffffff;
-    background-color: #111118;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(226, 1, 26, 0.08);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(226, 1, 26, 0.15);
+    letter-spacing: 0.5px;
 }
 
-/* --- CRAZY DESIGN 7: Embedded System Project Cards --- */
+.skill-tags span:hover::before {
+    opacity: 0.25;
+    transform: scale(1.15);
+    filter: grayscale(0%) contrast(100%);
+}
+
+/* --- Embedded System Project Cards --- */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -470,7 +634,7 @@ section h2 {
     border-radius: var(--radius-lg);
     overflow: hidden;
     position: relative;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s var(--ease-out-expo);
 }
 
 .project-img-slot {
@@ -492,6 +656,10 @@ section h2 {
     color: var(--clr-gold);
     margin-bottom: 10px;
     letter-spacing: 0.8px;
+    transition: letter-spacing 0.3s ease;
+}
+.project-card:hover .project-date {
+    letter-spacing: 1.5px;
 }
 
 .project-info h3 {
@@ -499,11 +667,12 @@ section h2 {
     font-weight: 700;
     margin-bottom: 14px;
     letter-spacing: -0.01em;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.3s var(--ease-out-expo);
 }
 
 .project-card:hover h3 {
     color: var(--clr-gold);
+    transform: translateX(2px);
 }
 
 .project-info p {
@@ -531,7 +700,6 @@ section h2 {
     border-color: rgba(197, 160, 89, 0.4);
 }
 
-/* Reactive red neon glow boundaries on element focus hover */
 .project-card:hover {
     transform: translateY(-6px);
     border-color: rgba(226, 1, 26, 0.4);
@@ -552,7 +720,7 @@ section h2 {
     color: #ffffff;
     text-decoration: none;
     border-bottom: 3px solid var(--clr-accent);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s var(--ease-out-expo);
     letter-spacing: -0.02em;
     display: inline-block;
 }
@@ -560,7 +728,8 @@ section h2 {
 .contact-link:hover {
     color: var(--clr-accent);
     text-shadow: 0 0 30px rgba(226, 1, 26, 0.3);
-    transform: translateX(4px);
+    transform: translateX(6px);
+    letter-spacing: 0.02em;
 }
 
 .social-links {
@@ -582,6 +751,7 @@ section h2 {
 .social-links a:hover {
     color: var(--clr-gold);
     transform: translateY(-2px);
+    letter-spacing: 2.5px;
 }
 
 .Projects-link {
@@ -589,123 +759,92 @@ section h2 {
     color: inherit;
 }
 
-/* --- Native GPU Scroll-Driven Animation Implementation --- */
+/* --- Scroll-Driven Reveals --- */
 @keyframes structuralReveal {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @supports (animation-timeline: view()) {
-    section {
-        animation: structuralReveal cubic-bezier(0.16, 1, 0.3, 1) both;
+    section:not(.hero-section) {
+        animation: structuralReveal var(--ease-out-expo) both;
         animation-timeline: view();
-        animation-range: entry 5% cover 25%;
-    }
-    .hero-section {
-        animation: none;
+        animation-range: entry 5% cover 22%;
     }
 }
 
-/* --- Core Neon Glow Engine Animation Keyframes --- */
-@keyframes animate {
-    from {
-        opacity: 0;
-        transform: translateY(35px);
-        text-shadow: 0 0 0px rgba(226, 1, 26, 0);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-        
-        /* High-intensity multi-layered light emission matrices */
-        text-shadow: 
-            0 0 12px rgba(226, 1, 26, 0.95), 
-            0 0 25px rgba(226, 1, 26, 0.75), 
-            0 0 55px rgba(197, 160, 89, 0.55), 
-            0 0 100px rgba(226, 1, 26, 0.35);
-    }
+/* --- THE FLASHLIGHT HARDWARE CONE OVERLAYS --- */
+.custom-cursor, .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s var(--ease-out-expo), height 0.25s var(--ease-out-expo), opacity 0.15s ease;
 }
 
-/* --- Modern Responsive Device Breakpoints --- */
+/* Dynamic Core Spotlight ring following lagging interpolation logic */
+.custom-cursor {
+    width: 60px;
+    height: 60px;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 80%);
+    border-radius: 50%;
+}
+
+.cursor-dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--clr-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+/* Expands structural brightness context upon striking active text arrays */
+.cursor-hover-state {
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle, rgba(226, 1, 26, 0.12) 0%, transparent 75%);
+    border: 1px solid rgba(226, 1, 26, 0.4);
+}
+
+.dot-hover-state {
+    transform: translate(-50%, -50%) scale(2);
+    background-color: #ffffff;
+}
+
+/* --- Breakpoints --- */
 @media (max-width: 1200px) {
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
+    .projects-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 1024px) {
-    .content-wrapper {
-        padding: 0 6% 80px 6%;
-    }
-    .hero-section h1 {
-        font-size: 3.6rem;
-    }
-    .about-container {
-        grid-template-columns: 1fr;
-    }
-    .profile-img-slot {
-        height: 400px;
-    }
+    .content-wrapper { padding: 0 6% 80px 6%; }
+    .hero-section h1 { font-size: 3.6rem; }
+    .about-container { grid-template-columns: 1fr; }
+    .profile-img-slot { height: 400px; }
 }
 
 @media (max-width: 768px) {
-    body {
-        grid-template-columns: 1fr;
-        background: 
-        linear-gradient(rgba(0, 0, 0, 0.80), rgba(0, 0, 0, 0.80)),
-        url("Images/BG.png");
-
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    }
-
-    /* Mobile Glass Navigation Header bar */
+    body { grid-template-columns: 1fr; }
+    body::after { display: none !important; } /* Strips masking system overhead completely on mobile */
+    html.desktop-engine, html.desktop-engine * { cursor: auto !important; }
+    .custom-cursor, .cursor-dot { display: none !important; }
     .sidebar {
-        position: fixed;
-        width: 100%;
-        height: 70px;
-        padding: 0 24px;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        flex-direction: row;
-        align-items: center;
-        background: rgba(10, 10, 14, 0.7);
+        position: fixed; width: 100%; height: 70px; padding: 0 24px;
+        border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        flex-direction: row; align-items: center; background: rgba(10, 10, 14, 0.85);
+        animation: sidebarBootMobile 0.6s var(--ease-out-expo) forwards;
     }
-    
-    .sidebar::after {
-        display: none;
+    @keyframes sidebarBootMobile {
+        from { transform: translateY(-100%); }
+        to { transform: translateY(0); }
     }
-
-    .sidebar-links, .sidebar-footer {
-        display: none;
-    }
-
-    .content-wrapper {
-        grid-column: 1;
-        padding: 0 24px 60px 24px;
-    }
-
-    .hero-section {
-        height: auto;
-        padding: 140px 0 80px 0;
-    }
-
-    .hero-section h1 {
-        font-size: 2.8rem;
-    }
-
-    section {
-        padding-top: 80px;
-    }
-
-    section h2 {
-        font-size: 2rem;
-    }
+    .sidebar::after, .sidebar-links, .sidebar-footer { display: none; }
+    .content-wrapper { grid-column: 1; padding: 0 24px 60px 24px; }
+    .hero-section { height: auto; padding: 140px 0 80px 0; }
+    .hero-section h1 { font-size: 2.8rem; }
+    section { padding-top: 80px; }
+    section h2 { font-size: 2rem; }
 }
