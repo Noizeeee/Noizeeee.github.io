@@ -183,95 +183,88 @@
         </section>
     </main>
 
-    <script>
-        // --- 1. Dynamic Matrix Script Reveal Engine ---
-        const descElement = document.querySelector('.description-reveal');
-        const rawText = "Computer Engineering Student | Embedded Systems & Backend Developer";
-        
-        descElement.innerHTML = rawText.split("").map(char => {
-            if(char === " ") return `<span class="word-space">&nbsp;</span>`;
-            return `<span class="char-unit">${char}</span>`;
-        }).join("");
+    <!-- Draggable autonomous portfolio robot -->
+    <div class="robot-companion interactive-target" id="robotCompanion" role="button" tabindex="0" aria-label="R-01, the portfolio robot. Drag me around or click for a fun fact.">
+        <div class="robot-speech" id="robotSpeech" role="status" aria-live="polite">
+            <span class="robot-speech-label">R-01 // SITE SCAN</span>
+            <span id="robotFact">Systems online. Drag me around, or tap me for a portfolio fact.</span>
+        </div>
+        <div class="robot-shadow"></div>
+        <svg class="robot-art" viewBox="0 0 150 122" aria-hidden="true">
+            <defs>
+                <linearGradient id="robotMetal" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#ff6a7a"/>
+                    <stop offset="0.42" stop-color="#b70820"/>
+                    <stop offset="1" stop-color="#3a050c"/>
+                </linearGradient>
+                <linearGradient id="robotDark" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#242a35"/>
+                    <stop offset="1" stop-color="#080a0e"/>
+                </linearGradient>
+                <linearGradient id="robotEnergy" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#fff1f3"/>
+                    <stop offset="0.45" stop-color="#ff3048"/>
+                    <stop offset="1" stop-color="#8f0011"/>
+                </linearGradient>
+                <filter id="robotGlow" x="-80%" y="-80%" width="260%" height="260%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#e2011a" flood-opacity=".95"/>
+                </filter>
+            </defs>
 
-        document.querySelectorAll('.char-unit').forEach((char, index) => {
-            setTimeout(() => {
-                char.classList.add('revealed');
-            }, 40 * index);
-        });
+            <g class="robot-antenna">
+                <path d="M76 24 L76 10" stroke="#9ba7b5" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="76" cy="7" r="5" fill="#ff3048" stroke="#ffd9dd" stroke-width="1.5" filter="url(#robotGlow)"/>
+            </g>
 
-        // --- 2. Intersection Observer Core ---
-        const sections = document.querySelectorAll("section");
-        const navLinks = document.querySelectorAll(".sidebar-links a");
+            <g class="robot-thrusters">
+                <path d="M55 99 L51 116 L61 105 Z" fill="url(#robotEnergy)" filter="url(#robotGlow)"/>
+                <path d="M96 99 L91 116 L102 105 Z" fill="url(#robotEnergy)" filter="url(#robotGlow)"/>
+            </g>
 
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const activeId = entry.target.getAttribute("id");
-                    navLinks.forEach(link => link.classList.remove("active"));
-                    const matchingLink = document.querySelector(`.sidebar-links a[href="#${activeId}"]`);
-                    if (matchingLink) matchingLink.classList.add("active");
-                }
-            });
-        }, { root: null, rootMargin: "-30% 0px -60% 0px", threshold: 0 });
+            <g class="robot-arm robot-arm-left">
+                <path d="M43 61 Q24 65 24 82" fill="none" stroke="#6e7987" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="35" cy="67" r="4" fill="#ff3048" opacity=".85"/>
+                <circle cx="23" cy="86" r="8" fill="url(#robotMetal)" stroke="#cbd4de" stroke-width="1.5"/>
+            </g>
+            <g class="robot-arm robot-arm-right">
+                <path d="M108 61 Q127 65 127 82" fill="none" stroke="#6e7987" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="116" cy="67" r="4" fill="#ff3048" opacity=".85"/>
+                <circle cx="128" cy="86" r="8" fill="url(#robotMetal)" stroke="#cbd4de" stroke-width="1.5"/>
+            </g>
 
-        sections.forEach(section => sectionObserver.observe(section));
+            <g class="robot-leg robot-leg-left">
+                <path d="M61 94 L59 110" stroke="#6e7987" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="60" cy="98" r="4" fill="#ff3048" opacity=".85"/>
+                <path d="M51 113 Q59 106 68 113 L67 118 H51 Z" fill="url(#robotMetal)" stroke="#cbd4de" stroke-width="1.3"/>
+            </g>
+            <g class="robot-leg robot-leg-right">
+                <path d="M91 94 L93 110" stroke="#6e7987" stroke-width="10" stroke-linecap="round"/>
+                <circle cx="92" cy="98" r="4" fill="#ff3048" opacity=".85"/>
+                <path d="M84 113 Q93 106 101 113 L101 118 H85 Z" fill="url(#robotMetal)" stroke="#cbd4de" stroke-width="1.3"/>
+            </g>
 
-        // --- 3. Fluid Physics Frame Loop & Flashlight Engine --- //
-        const cursor = document.getElementById('customCursor');
-        const dot = document.getElementById('cursorDot');
-        const interactiveTargets = document.querySelectorAll('.interactive-target');
+            <rect x="44" y="58" width="64" height="48" rx="17" fill="url(#robotMetal)" stroke="#d4dbe3" stroke-width="1.8"/>
+            <path d="M49 78 H103" stroke="#555f6c" stroke-width="2"/>
+            <circle cx="76" cy="83" r="12" fill="#111620" stroke="#657382" stroke-width="2"/>
+            <path class="robot-core" d="M76 74 L84 79 L81 89 L71 89 L68 79 Z" fill="url(#robotEnergy)" filter="url(#robotGlow)"/>
 
-        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-        
-        if (window.matchMedia("(pointer: fine)").matches) {
-            document.documentElement.classList.add('desktop-engine');
+            <g class="robot-head">
+                <path d="M50 30 Q76 18 102 30 L108 52 Q104 69 76 72 Q48 69 44 52 Z" fill="url(#robotMetal)" stroke="#e0e5eb" stroke-width="2"/>
+                <path d="M50 38 Q76 28 102 38 L101 55 Q76 64 51 55 Z" fill="url(#robotDark)" stroke="#56616e" stroke-width="1.5"/>
+                <path class="robot-eye" d="M58 46 Q65 41 71 46 Q65 52 58 46 Z" fill="#ff3048" filter="url(#robotGlow)"/>
+                <path class="robot-eye" d="M81 46 Q88 41 95 46 Q88 52 81 46 Z" fill="#ff3048" filter="url(#robotGlow)"/>
+                <path d="M69 57 Q76 61 83 57" fill="none" stroke="#ff3048" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+                <path d="M47 34 L38 40 L45 48 M105 34 L114 40 L107 48" fill="#596574" stroke="#d4dbe3" stroke-width="1.3"/>
+            </g>
 
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-            });
+            <g class="robot-panel-lights" fill="#e2011a">
+                <circle cx="53" cy="87" r="2"/>
+                <circle cx="99" cy="87" r="2"/>
+            </g>
+        </svg>
+        <span class="robot-hint">DRAG R-01</span>
+    </div>
 
-            function renderCursorLoop() {
-                cursorX += (mouseX - cursorX) * 0.12;
-                cursorY += (mouseY - cursorY) * 0.12;
-                cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
-                
-                // Synchronize raw position vector directly to CSS engine variables
-                document.documentElement.style.setProperty('--flashlight-x', `${mouseX}px`);
-                document.documentElement.style.setProperty('--flashlight-y', `${mouseY}px`);
-                
-                requestAnimationFrame(renderCursorLoop);
-            }
-            requestAnimationFrame(renderCursorLoop);
-
-            interactiveTargets.forEach(target => {
-                target.addEventListener('mouseenter', () => {
-                    cursor.classList.add('cursor-hover-state');
-                    dot.classList.add('dot-hover-state');
-                });
-                target.addEventListener('mouseleave', () => {
-                    cursor.classList.remove('cursor-hover-state');
-                    dot.classList.remove('dot-hover-state');
-                });
-            });
-        }
-
-        // --- 4. Adaptive Vector Typography Deflection (Magnet Engine) ---
-        const magnetText = document.querySelector('.interactive-magnet');
-        if (magnetText && window.matchMedia("(pointer: fine)").matches) {
-            magnetText.addEventListener('mousemove', (e) => {
-                const coord = magnetText.getBoundingClientRect();
-                const x = (e.clientX - coord.left) - (coord.width / 2);
-                const y = (e.clientY - coord.top) - (coord.height / 2);
-                
-                magnetText.style.transform = `translate3d(${x * 0.15}px, ${y * 0.2}px, 0) rotateX(${-y * 0.05}deg) rotateY(${x * 0.05}deg)`;
-            });
-
-            magnetText.addEventListener('mouseleave', () => {
-                magnetText.style.transform = 'translate3d(0,0,0) rotateX(0deg) rotateY(0deg)';
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
